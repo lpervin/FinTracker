@@ -1,18 +1,24 @@
-import React, { Component } from 'react';
-import { Container } from 'reactstrap';
-import { NavMenu } from './NavMenu';
+import React, {Component} from 'react'
+import NavMenu from "./NavMenu";
+import Container from '@material-ui/core/Container'
+import './NavMenu.css'
 
-export class Layout extends Component {
-  static displayName = Layout.name;
 
-  render () {
-    return (
-      <div>
-        <NavMenu />
-        <Container>
-          {this.props.children}
-        </Container>
-      </div>
-    );
-  }
+class Layout extends Component {
+  
+    render() {
+        const styles = {root: { paddingTop: 150 }}
+        return (
+            <React.Fragment>
+                <NavMenu/>                
+                <Container className="page-content">
+                    {this.props.children}   
+                </Container>                
+            </React.Fragment>
+                
+            
+        );
+    }
 }
+
+export default  Layout;
