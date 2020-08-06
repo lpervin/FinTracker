@@ -10,8 +10,6 @@ export default class Trade extends Component {
         // this.incrementCounter = this.incrementCounter.bind(this);
     }
 
-
-
     render() {
         return (
             <div>
