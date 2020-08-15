@@ -9,7 +9,10 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Button from "@material-ui/core/Button";
-import Axios from "axios";
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+import axios from "axios";
+import FinsecurityList from "./finsecurityList";
 import configs from './../../configs';
 
 const useStyles = makeStyles((theme) => ({
@@ -43,77 +46,134 @@ const useStyles = makeStyles((theme) => ({
 export default function Finsecurity()  {
     const classes = useStyles();
     const [finSecurity, setFinSecurity] = React.useState({Name: '', Symbol: '', SecurityType: 'Equity'  });
- 
+    const [addInProgress, setAddInProgress] = React.useState(false);
+    const [lastFinSecurityId, setLastFinSecurityId] = React.useState(0);
+    const [formState, setFormState] = React.useState({Name: false, Symbol: false});
+    
     const handleChange = (event) => {
         //console.log(event);
         const prop = event.target.id ? event.target.id : event.target.name;
-        const newState = {...finSecurity};
-        newState[prop] = event.target.value;
+        const newFinSecurity = {...finSecurity};
+        newFinSecurity[prop] = event.target.value;
       //  console.log(newState);
-        setFinSecurity(newState);        
+        setFinSecurity(newFinSecurity);        
+        //Set form state
+        const newState = {...formState};
+        newState[prop] = !event.target.value || event.target.value.length===0;
+        setFormState(newState);
     };
     
     const addFinSecurity = ()=>{
+        
+        //event.preventDefault();
+        /***Validation**/
+        let isValid = true;
+        const newState = {...formState};
+        if (finSecurity.Symbol.length===0)  {
+            newState.Symbol = true;
+            isValid = false;
+        }
+
+        if (finSecurity.Name.length===0)  {
+            newState.Name = true;
+            isValid = false;
+        }
+        console.log(newState);
+        setFormState(newState);
+        if (!isValid)
+            return;
+        /***Validation**/
+        
        // console.log(configs.serviceUrl);
         const apiUrl = configs.serviceUrl + 'finsecurity';
-        console.log(finSecurity);
-        Axios.post(apiUrl, finSecurity)
-            .then((response)=> {console.log(response);})
-            .catch((err) => {console.log(err);});
+        //console.log(finSecurity);
+        setAddInProgress(true);
+        axios.post(apiUrl, finSecurity)
+            .then((response)=> {
+                setLastFinSecurityId(response);
+                console.log(response);
+            })
+            .catch((err) => {console.log(err);})
+            .finally(() => 
+                                    {
+                                        setFinSecurity({Name: '', Symbol: '', SecurityType: 'Equity'  });
+                                        setAddInProgress(false);                                        
+                                    });
         
     };
     return (
             <div className={classes.root}>
                 
                 <Grid container spacing={1}>
-                    <Grid item lg={12} xs={6}>
+                    <Grid item lg={12} xs={12}>
                         <Paper className={classes.paper}>
                             Add New Financial Security                        
                         </Paper>
                     </Grid>
                 </Grid>  
                 <form className={classes.form}>
-                <Grid container>
+                    <Paper className={classes.paper}>
+                        <Grid container>
                             <Grid item xs={8}>
-                                    <TextField required id="Name"
-                                               onChange={handleChange}
-                                               label="Security Name" placeholder="Security Name"  
-                                               value={finSecurity.Name} />
-                                        <TextField required id="Symbol"
-                                                   onChange={handleChange}
-                                                   label="Symbol" placeholder="Symbol"  
-                                                   value={finSecurity.Symbol} />
-        
-                                        <FormControl className={classes.formControl}>                                
-                                        <InputLabel shrink id="securityTypeLabel">
-                                            Security Type
-                                        </InputLabel>
-                                        <Select
-                                            labelId="securityTypeLabel"
-                                            id="SecurityType"
-                                            name="SecurityType"
-                                            value={finSecurity.SecurityType}
-                                            onChange={handleChange}
-                                            displayEmpty
-                                            className={classes.selectEmpty}
-                                        >                                    
-                                            <MenuItem value="Equity">Common Stock</MenuItem>
-                                            <MenuItem value="MutualFund">Mututal Fund</MenuItem>
-                                            <MenuItem value="ETF">ETF</MenuItem>
-                                        </Select>
-                                    
-                                    </FormControl>
-                            </Grid>                          
-                            <Grid item xs={2}>
-                                <Button variant="contained" color="primary" 
-                                        onClick={addFinSecurity}
-                                        className={classes.addButton}>
-                                    Add Security
-                                </Button>
+                        
+                                <TextField required id="Symbol"
+                                           error={formState.Symbol}
+                                           onChange={handleChange}
+                                           label="Symbol" placeholder="Symbol"
+                                           value={finSecurity.Symbol}
+                                           helperText={formState.Symbol ? 'Symbol is required' : ''}
+                                />
+                                <TextField required id="Name"
+                                           error={formState.Name}
+                                           onChange={handleChange}
+                                           label="Security Name" placeholder="Security Name"
+                                           helperText={!formState.Name ? 'Name is required' : ''}
+                                           value={finSecurity.Name} />
+                                <FormControl className={classes.formControl}>
+                                    <InputLabel shrink id="securityTypeLabel">
+                                        Security Type
+                                    </InputLabel>
+                                    <Select
+                                        labelId="securityTypeLabel"
+                                        id="SecurityType"
+                                        name="SecurityType"
+                                        value={finSecurity.SecurityType}
+                                        onChange={handleChange}
+                                        displayEmpty
+                                        className={classes.selectEmpty}
+                                    >
+                                        <MenuItem value="Equity">Common Stock</MenuItem>
+                                        <MenuItem value="MutualFund">Mututal Fund</MenuItem>
+                                        <MenuItem value="ETF">ETF</MenuItem>
+                                    </Select>
+
+                                </FormControl>
                             </Grid>
-                   
-                </Grid>
+                            <Grid item xs={2}>
+                           
+                                <Button variant="contained" color="primary"    
+                                        onClick={addFinSecurity}                                   
+                                        className={classes.addButton}>
+                                    Add Security    
+                                </Button>
+                            </Grid>                            
+                        </Grid>  
+                        <Grid container>        
+                            <Grid item xs={8}>
+                                &nbsp;
+                            </Grid>    
+                                <Grid item xs={2}>
+                                    
+                                    {addInProgress && <CircularProgress color="primary"/>}
+                                    
+                                </Grid>
+                            
+                        </Grid>
+                    </Paper>                
                 </form>
+             
+                    <FinsecurityList Id={lastFinSecurityId}/>
+             
             </div>
         );
     }

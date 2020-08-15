@@ -1,5 +1,7 @@
 using System.Threading.Tasks;
 using FinTracker.Domain.Models;
+using FinTracker.Domain.Models.Request;
+using FinTracker.Domain.Models.Response;
 using FinTracker.Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -22,6 +24,13 @@ namespace FinTracker.WebApi.Controllers
         public async Task<long> AddFinSecurity(FinSecurity finSecurity)
         {
             return await _finSecurityRepository.AddFinSecurityAsync(finSecurity);
+        }
+
+        [HttpPost]
+        [Route("query")]
+        public async Task<QueryResult<FinSecurityResource>> QueryFinSecurity(FinSecurityQuery requestQuery)
+        {
+            return await _finSecurityRepository.QueryFinSecuritiesAsync(requestQuery);
         }
 
     }

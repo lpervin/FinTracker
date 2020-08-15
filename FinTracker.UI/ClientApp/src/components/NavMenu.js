@@ -17,8 +17,9 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import * as Icons from '@material-ui/icons';
-
+//import * as Icons from '@material-ui/icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEdit } from '@fortawesome/free-regular-svg-icons/faEdit'
 import './NavMenu.css'
 
 import Tabs from '@material-ui/core/Tabs';
@@ -158,9 +159,10 @@ const useStyles = makeStyles((theme) => ({
                    
                         <ListItem  component={MaterialLink} href="/finsecurity">
                             <ListItemIcon>
-                                <Icons.AddBox />
+                                {/*<Icons.AddBox />*/}
+                                <FontAwesomeIcon  icon={faEdit}/>
                             </ListItemIcon>
-                            <ListItemText primary="Add Securities" />
+                            <ListItemText primary="Manage Securities" />
                             
                         </ListItem>
                                   </List>

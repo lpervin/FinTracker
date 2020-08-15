@@ -1,7 +1,15 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using FinTracker.Domain.Data;
+using FinTracker.Domain.Extensions;
 using FinTracker.Domain.Models;
+using FinTracker.Domain.Models.Request;
+using FinTracker.Domain.Models.Response;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinTracker.Domain.Repositories
 {
@@ -26,6 +34,39 @@ namespace FinTracker.Domain.Repositories
                // Console.WriteLine(e);
                return -1;
             }
+        }
+
+        public async Task<QueryResult<FinSecurityResource>> QueryFinSecuritiesAsync(FinSecurityQuery requestQuery)
+        {
+            var results = new QueryResult<FinSecurityResource>();
+            //Apply Search 
+            var query = _dbContext
+                .FinSecurity
+                .AsQueryable();
+            query = query.ApplyFiltering(requestQuery);
+            //Apply Sort
+            var columnsMap = new Dictionary<string, Expression<Func<FinSecurity, object>>>()
+            {
+                ["Id"] = fs => fs.Id,
+                ["Name"] = fs => fs.Name,
+                ["Symbol"] = fs => fs.Symbol
+            };
+            query = query.ApplySorting(requestQuery, columnsMap);
+            //Get Total Counts before paging
+            results.TotalItems = await query.CountAsync();
+            //Apply Paging
+            query = query.ApplyPaging(requestQuery);
+           // Project to FinSecurityResource
+           results.Items = query.Select(fs => new FinSecurityResource()
+           {
+               Id = fs.Id,
+               Name = fs.Name,
+               Symbol = fs.Symbol,
+               SecurityType = fs.SecurityType,
+               LastPrice = fs.LastPrice,
+               FinSecurityHistoryExists = fs.FinSecurityPriceHistory.Any()
+           }).ToList();
+            return results;
         }
     }
 }
