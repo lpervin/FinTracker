@@ -3,6 +3,7 @@ import { Route } from 'react-router';
 import Layout from "./components/Layout";
 import Portfolio from "./components/portfolio";
 import Research from "./components/research";
+import Finsecurity from "./components/finsecurity/finsecurity";
 import Trade from "./components/trade";
 import { Switch } from "react-router-dom";
 // import './custom.css'
@@ -19,7 +20,8 @@ export default class App extends Component {
               <Route exact path='/portfolio' component={Portfolio} />    
                 <Route path='/research' component={Research} />
                 <Route path='/trade' component={Trade} />
-                <Route exact path='/' component={Portfolio} />
+                <Route exact path='/finsecurity' component={Finsecurity} />
+              <Route exact path='/' component={Portfolio} />
           </Switch>
       </Layout>
     );

@@ -17,9 +17,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-
+import * as Icons from '@material-ui/icons';
 
 import './NavMenu.css'
 
@@ -136,9 +134,9 @@ const useStyles = makeStyles((theme) => ({
                         <Tab label="Research" component={MaterialLink} href="/research" id="item-2" color="inherit"  classes={{ root: classes.tabItem }}/>
                         <Tab label="Trade" component={MaterialLink}  href="/trade"  id="item-3"  color="inherit"  classes={{ root: classes.tabItem }}/>
                     </Tabs>
-                    <Typography variant="h6">
+               {/*     <Typography variant="h6">
                         {tabIndex}
-                    </Typography>
+                    </Typography>*/}
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -157,22 +155,24 @@ const useStyles = makeStyles((theme) => ({
                 </div>
                 <Divider />
                 <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                            <ListItemText primary={text} />
+                   
+                        <ListItem  component={MaterialLink} href="/finsecurity">
+                            <ListItemIcon>
+                                <Icons.AddBox />
+                            </ListItemIcon>
+                            <ListItemText primary="Add Securities" />
+                            
                         </ListItem>
-                    ))}
-                </List>
+                                  </List>
                 <Divider />
-                <List>
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
-                </List>
+                {/*<List>*/}
+                {/*    {['All mail', 'Trash', 'Spam'].map((text, index) => (*/}
+                {/*        <ListItem button key={text}>*/}
+                {/*            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>*/}
+                {/*            <ListItemText primary={text} />*/}
+                {/*        </ListItem>*/}
+                {/*    ))}*/}
+                {/*</List>*/}
             </Drawer>
         </div>
       
