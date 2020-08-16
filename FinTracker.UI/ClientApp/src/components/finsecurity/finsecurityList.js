@@ -12,6 +12,8 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import TablePagination from "@material-ui/core/TablePagination";
+import DeleteForeverSharpIcon from '@material-ui/icons/DeleteForeverSharp'
+import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -19,6 +21,10 @@ const useStyles = makeStyles(theme => ({
     },
     mainContent: {
         marginTop: theme.spacing(2)
+    },
+    DeleteLink: {
+        cursor: 'pointer',
+        color: theme.palette.error.dark + '!important'
     }
 }) );
 
@@ -28,6 +34,8 @@ export default  function FinsecurityList({ Id }) {
         const [page, setPage] = React.useState(0);
         const [rowsPerPage, setRowsPerPage] = React.useState(10);
         const [dataLoadingStatus, setDataLoadingStatus] = React.useState(true);
+        const [deletedRowsCnt, setDeletedRowsCnt] = React.useState(0);
+        
         useEffect(  () => {
             async function fetchFinSecurities(){
                 const apiUrl = configs.serviceUrl + 'finsecurity/query';
@@ -40,35 +48,56 @@ export default  function FinsecurityList({ Id }) {
             }
             fetchFinSecurities();
            
-        }, [Id, page, rowsPerPage]);
+        }, [Id, page, rowsPerPage, deletedRowsCnt]);
 
     const handleChangePage = (event, newPage) => {
         console.log(newPage);
         setPage(newPage);
+        
     };
 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
+    
+    const handleDelete = (id) => {
+        console.log(id);
+        const doDelete = window.confirm('Delete this row?');
+        if (!doDelete)
+            return false;
+
+        const apiUrl = configs.serviceUrl + 'finsecurity/' + id;       
+        axios.delete(apiUrl)
+            .then((results)=> {
+               
+                const newCount = deletedRowsCnt+1;
+                setDeletedRowsCnt(newCount);
+            })
+            .catch((error)=> {
+                console.log(error)
+                window.alert('Error Occured!');
+            })
+            .finally(()=> {
+                //setDataLoadingStatus(true);
+            });
+        
+       
+        
+    }
         
         return (
                
             <Card className={classes.mainContent}> 
-                <CardContent>
-                   {/* <ul>
-                    {finSecurities.totalItems===0 && <CircularProgress color="primary"/>}
-                    {finSecurities.items.map(
-                        item => (
-                            <li key={item.id}>{item.name}</li>)
-                    )
-                    }
-                </ul>*/}
+                <CardContent>              
                     {dataLoadingStatus && <CircularProgress color="primary"/>}
                     <TableContainer>
                         <Table size="medium">
                             <TableHead>
                                 <TableRow>
+                                    <TableCell>
+                                        &nbsp;
+                                    </TableCell>
                                     <TableCell>
                                         Smbol
                                     </TableCell>
@@ -85,7 +114,13 @@ export default  function FinsecurityList({ Id }) {
                                         return (
                                             <TableRow hover key={row.id}>
                                                 <TableCell>
-                                                    {row.symbol}
+                                                    <Link className={classes.DeleteLink} title="Delete"  onClick={() => handleDelete(row.id)} id={row.id}>
+                                                        <DeleteForeverSharpIcon   />                                        
+                                                    </Link>
+                                                    
+                                                </TableCell>
+                                                <TableCell>
+                                                   {row.symbol}
                                                 </TableCell>
                                                 <TableCell>
                                                     {row.name}

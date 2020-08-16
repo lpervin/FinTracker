@@ -68,5 +68,16 @@ namespace FinTracker.Domain.Repositories
            }).ToList();
             return results;
         }
+
+        public async Task<bool> DeleteFinSecurityAsyc(long id)
+        {
+            var finSecuirtyToDelete = await _dbContext.FinSecurity.FindAsync(id);
+            if (finSecuirtyToDelete == null)
+                return false;
+        
+            _dbContext.Remove(finSecuirtyToDelete);
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
     }
 }

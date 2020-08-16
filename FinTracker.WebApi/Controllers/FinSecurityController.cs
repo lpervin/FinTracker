@@ -33,5 +33,15 @@ namespace FinTracker.WebApi.Controllers
             return await _finSecurityRepository.QueryFinSecuritiesAsync(requestQuery);
         }
 
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteFinSecurity(long id)
+        {
+            var results = await _finSecurityRepository.DeleteFinSecurityAsyc(id);
+            if (!results)
+                return NotFound();
+
+            return Ok();
+        }
+
     }
 }
