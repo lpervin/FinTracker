@@ -21,6 +21,22 @@ namespace FinTracker.Domain.Repositories
         {
             _dbContext = finDbContext;
         }
+
+        public async Task<List<FinSecurityResource>> GetAllAsync()
+        {
+            var results = await _dbContext.FinSecurity
+                .Select(fs => new FinSecurityResource
+                {
+                    Id =  fs.Id,
+                    Name = fs.Name,
+                    Symbol = fs.Symbol,
+                    FinSecurityHistoryExists = fs.FinSecurityPriceHistory.Any()
+                })
+                .ToListAsync();
+
+            return results;
+        }
+
         public async Task<long> AddFinSecurityAsync(FinSecurity security)
         {
             try

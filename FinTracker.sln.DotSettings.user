@@ -1,0 +1,6 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;
+  &lt;Assembly Path="/Users/lenny/.nuget/packages/graphql/3.0.0-preview-1648/lib/netstandard2.0/GraphQL.dll" /&gt;
+  &lt;Assembly Path="/Users/lenny/.nuget/packages/graphql.server.transports.aspnetcore/3.5.0-alpha0046/lib/netcoreapp3.1/GraphQL.Server.Transports.AspNetCore.dll" /&gt;
+  &lt;Assembly Path="/Users/lenny/.nuget/packages/graphql.server.transports.aspnetcore.newtonsoftjson/3.5.0-alpha0046/lib/netstandard2.0/GraphQL.Server.Transports.AspNetCore.NewtonsoftJson.dll" /&gt;
+&lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>

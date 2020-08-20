@@ -14,6 +14,13 @@ import TableBody from "@material-ui/core/TableBody";
 import TablePagination from "@material-ui/core/TablePagination";
 import DeleteForeverSharpIcon from '@material-ui/icons/DeleteForeverSharp'
 import Link from '@material-ui/core/Link';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from "@material-ui/core/Button";
+
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -25,6 +32,9 @@ const useStyles = makeStyles(theme => ({
     DeleteLink: {
         cursor: 'pointer',
         color: theme.palette.error.dark + '!important'
+    },
+    confirmDialog: {
+        minWidth: '460px'
     }
 }) );
 
@@ -35,6 +45,8 @@ export default  function FinsecurityList({ Id }) {
         const [rowsPerPage, setRowsPerPage] = React.useState(10);
         const [dataLoadingStatus, setDataLoadingStatus] = React.useState(true);
         const [deletedRowsCnt, setDeletedRowsCnt] = React.useState(0);
+        const [confirmDelete, setConfirmDelete] = React.useState(false);
+        const [rowToDelete, setRowToDelete] = React.useState({});
         
         useEffect(  () => {
             async function fetchFinSecurities(){
@@ -61,16 +73,23 @@ export default  function FinsecurityList({ Id }) {
         setPage(0);
     };
     
-    const handleDelete = (id) => {
-        console.log(id);
-        const doDelete = window.confirm('Delete this row?');
+    const handleDelete = (row) => {
+   /*     console.log(row.id);
+        const doDelete = window.confirm(`Delete this ${row.symbol}?`);
         if (!doDelete)
-            return false;
+            return false;      */
+        setRowToDelete(row);
+        setConfirmDelete(true);
+    }
 
-        const apiUrl = configs.serviceUrl + 'finsecurity/' + id;       
+    const handleClose = () => {
+        setConfirmDelete(false);
+    };
+    
+    function doDelete() {
+        const apiUrl = configs.serviceUrl + 'finsecurity/' + rowToDelete.id;
         axios.delete(apiUrl)
             .then((results)=> {
-               
                 const newCount = deletedRowsCnt+1;
                 setDeletedRowsCnt(newCount);
             })
@@ -79,76 +98,96 @@ export default  function FinsecurityList({ Id }) {
                 window.alert('Error Occured!');
             })
             .finally(()=> {
+                setConfirmDelete(false);
                 //setDataLoadingStatus(true);
             });
-        
-       
-        
     }
-        
-        return (
-               
-            <Card className={classes.mainContent}> 
-                <CardContent>              
-                    {dataLoadingStatus && <CircularProgress color="primary"/>}
-                    <TableContainer>
-                        <Table size="medium">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>
-                                        &nbsp;
-                                    </TableCell>
-                                    <TableCell>
-                                        Smbol
-                                    </TableCell>
-                                    <TableCell>
-                                       Security Name
-                                    </TableCell>
-                                    <TableCell>
-                                        Security Type
-                                    </TableCell>
-                                </TableRow>
-                            </TableHead>
-                            {!dataLoadingStatus &&  <TableBody>
-                                {finSecurities.items.map((row, index) => {
-                                        return (
-                                            <TableRow hover key={row.id}>
-                                                <TableCell>
-                                                    <Link className={classes.DeleteLink} title="Delete"  onClick={() => handleDelete(row.id)} id={row.id}>
-                                                        <DeleteForeverSharpIcon   />                                        
-                                                    </Link>
-                                                    
-                                                </TableCell>
-                                                <TableCell>
-                                                   {row.symbol}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {row.name}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {row.securityType}
-                                                </TableCell>
-                                            </TableRow>);
-                                    }
-                                )}
-                            </TableBody>}
-                            
-                       
-                        </Table>
-                    </TableContainer>
-                    <TablePagination
-                    rowsPerPageOptions={[5,10,25]}
-                    component="div"
-                    count={finSecurities.totalItems}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onChangePage={handleChangePage}
-                    onChangeRowsPerPage={handleChangeRowsPerPage}
-                    />
-                        
-                 
-                </CardContent>
-            </Card>  
+
+    return (
+              <div>
+                  <Card className={classes.mainContent}>
+                      <CardContent>
+                          {dataLoadingStatus && <CircularProgress color="primary"/>}
+                          <TableContainer>
+                              <Table size="medium">
+                                  <TableHead>
+                                      <TableRow>
+                                          <TableCell>
+                                              &nbsp;
+                                          </TableCell>
+                                          <TableCell>
+                                              Smbol
+                                          </TableCell>
+                                          <TableCell>
+                                              Security Name
+                                          </TableCell>
+                                          <TableCell>
+                                              Security Type
+                                          </TableCell>
+                                      </TableRow>
+                                  </TableHead>
+                                  {!dataLoadingStatus &&  <TableBody>
+                                      {finSecurities.items.map((row, index) => {
+                                              return (
+                                                  <TableRow hover key={row.id}>
+                                                      <TableCell>
+                                                          <Link className={classes.DeleteLink} title="Delete"  onClick={() => handleDelete(row)} id={row.id}>
+                                                              <DeleteForeverSharpIcon   />
+                                                          </Link>
+
+                                                      </TableCell>
+                                                      <TableCell>
+                                                          {row.symbol}
+                                                      </TableCell>
+                                                      <TableCell>
+                                                          {row.name}
+                                                      </TableCell>
+                                                      <TableCell>
+                                                          {row.securityType}
+                                                      </TableCell>
+                                                  </TableRow>);
+                                          }
+                                      )}
+                                  </TableBody>}
+
+
+                              </Table>
+                          </TableContainer>
+                          <TablePagination
+                              rowsPerPageOptions={[5,10,25]}
+                              component="div"
+                              count={finSecurities.totalItems}
+                              rowsPerPage={rowsPerPage}
+                              page={page}
+                              onChangePage={handleChangePage}
+                              onChangeRowsPerPage={handleChangeRowsPerPage}
+                          />
+
+
+                      </CardContent>
+                  </Card>
+                  <Dialog
+                      open={confirmDelete}
+                      onClose={handleClose}                  
+                      aria-labelledby="alert-dialog-title"
+                      aria-describedby="alert-dialog-description">
+                      <DialogTitle id="alert-dialog-title">Confrim Delete</DialogTitle>
+                      <DialogContent>
+                          <DialogContentText id="alert-dialog-description"     className={classes.confirmDialog}>
+                              Delete  {rowToDelete.name}?                        
+                          </DialogContentText>
+                      </DialogContent>
+                      <DialogActions>
+                          <Button onClick={handleClose} color="primary">
+                              Cancel
+                          </Button>
+                          <Button onClick={doDelete} color="secondary" autoFocus>
+                              Yes
+                          </Button>
+                      </DialogActions>
+                  </Dialog>
+
+              </div>  
         );
     
 }
