@@ -7,17 +7,28 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormHelperText from "@material-ui/core/FormHelperText";
+import Typography from '@material-ui/core/Typography'
+//import FormHelperText from "@material-ui/core/FormHelperText";
 import Button from "@material-ui/core/Button";
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlusCircle, faEdit, faUpload, faFileUpload } from '@fortawesome/free-solid-svg-icons'
 import axios from "axios";
 import FinsecurityList from "./finsecurityList";
+import FinSecurityHistoryUpload from './finSecurityHistoryUpload'
 import configs from './../../configs';
+import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+    },
+    paragraph: {
+        textAlign: "left",        
+        paddingLeft: "3em"        
+    },
+    info: {
+        color: theme.palette.info.dark
     },
     paper: {        
         padding: theme.spacing(2),
@@ -46,6 +57,8 @@ const useStyles = makeStyles((theme) => ({
 export default function Finsecurity()  {
     const classes = useStyles();
     const [finSecurity, setFinSecurity] = React.useState({Name: '', Symbol: '', SecurityType: 'Equity'  });
+    const [finSecurityHistory, setFinSecurityHistory] = React.useState({historyData: [], fromDate: null, toDate: null});
+    const [openHistory, setOpenHistory] = React.useState(false);
     const [addInProgress, setAddInProgress] = React.useState(false);
     const [lastFinSecurityId, setLastFinSecurityId] = React.useState(0);
     const [formState, setFormState] = React.useState({Name: false, Symbol: false});
@@ -101,8 +114,18 @@ export default function Finsecurity()  {
                                     });
         
     };
+    
+    const handleFinHistoryUpload = () => {
+
+        setOpenHistory(true);
+    };
+    
+    const handleFinHistoryClose = (results) => {
+        console.log(results);
+        setOpenHistory(false);
+    };
     return (
-            <div className={classes.root}>
+            <div className={classes.root}>               
                 
                 <Grid container spacing={1}>
                     <Grid item lg={12} xs={12}>
@@ -148,7 +171,7 @@ export default function Finsecurity()  {
                                     </Select>
 
                                 </FormControl>
-                            </Grid>
+                            </Grid>                           
                             <Grid item xs={2}>
                            
                                 <Button variant="contained" color="primary"    
@@ -157,7 +180,23 @@ export default function Finsecurity()  {
                                     Add Security    
                                 </Button>
                             </Grid>                            
-                        </Grid>  
+                        </Grid>
+                            <Grid container>
+                            <Grid item xs={6}>
+
+                                {finSecurityHistory.historyData.length>0 ? 
+                                      <Typography  className={classes.paragraph}>Historical Data: <Link className={classes.info} href="#" onClick={ (event) => {event.preventDefault(); handleFinHistoryUpload();} }>{finSecurityHistory.fromDate} to {finSecurityHistory.toDate}  <FontAwesomeIcon className={classes.info} title="Add Historical Data" icon={faEdit}/></Link> </Typography>
+                                    : <Typography className={classes.paragraph}><Link href="#" onClick={ (event) => {event.preventDefault(); handleFinHistoryUpload();} }>Upload Historical Data <FontAwesomeIcon className={classes.info} title="Upload Historical Data" icon={faUpload}/></Link></Typography>
+                                }
+
+                           {/*     {openHistory ? <div>Yes</div> : <div>No</div>}*/}
+
+                                
+                                <FinSecurityHistoryUpload openHistory={openHistory} onClose={handleFinHistoryClose}  />
+                                
+                            </Grid>
+                        </Grid>
+                        
                         <Grid container>        
                             <Grid item xs={8}>
                                 &nbsp;

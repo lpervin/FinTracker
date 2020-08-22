@@ -98,8 +98,7 @@ export default  function FinsecurityList({ Id }) {
                 window.alert('Error Occured!');
             })
             .finally(()=> {
-                setConfirmDelete(false);
-                //setDataLoadingStatus(true);
+                setConfirmDelete(false);              
             });
     }
 
