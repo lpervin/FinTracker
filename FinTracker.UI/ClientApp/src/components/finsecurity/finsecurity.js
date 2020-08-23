@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import TextField from "@material-ui/core/TextField";
@@ -11,13 +11,14 @@ import Typography from '@material-ui/core/Typography'
 //import FormHelperText from "@material-ui/core/FormHelperText";
 import Button from "@material-ui/core/Button";
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlusCircle, faEdit, faUpload, faFileUpload } from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faEdit, faUpload} from '@fortawesome/free-solid-svg-icons'
 import axios from "axios";
 import FinsecurityList from "./finsecurityList";
 import FinSecurityHistoryUpload from './finSecurityHistoryUpload'
 import configs from './../../configs';
 import Link from '@material-ui/core/Link';
+import {maxBy, minBy} from 'lodash'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -57,11 +58,12 @@ const useStyles = makeStyles((theme) => ({
 export default function Finsecurity()  {
     const classes = useStyles();
     const [finSecurity, setFinSecurity] = React.useState({Name: '', Symbol: '', SecurityType: 'Equity'  });
-    const [finSecurityHistory, setFinSecurityHistory] = React.useState({historyData: [], fromDate: null, toDate: null});
-    const [openHistory, setOpenHistory] = React.useState(false);
     const [addInProgress, setAddInProgress] = React.useState(false);
     const [lastFinSecurityId, setLastFinSecurityId] = React.useState(0);
     const [formState, setFormState] = React.useState({Name: false, Symbol: false});
+    const [openHistory, setOpenHistory] = React.useState(false);
+    const [finSecurityHistory, setFinSecurityHistory] = React.useState({historyData: [], fromDate: null, toDate: null});
+    
     
     const handleChange = (event) => {
         //console.log(event);
@@ -120,9 +122,20 @@ export default function Finsecurity()  {
         setOpenHistory(true);
     };
     
-    const handleFinHistoryClose = (results) => {
-        console.log(results);
+    const handleFinHistoryClose = (result, data) => {
+        
         setOpenHistory(false);
+        if (!result)
+            return 0;
+        
+        const histData = {historyData: data, fromDate: null, toDate: null};
+        const minHist = minBy(data, (h) => new Date(h.Date));
+        const maxHist = maxBy(data, (h) => new Date(h.Date));
+        histData.fromDate = minHist.Date;
+        histData.toDate = maxHist.Date;
+        setFinSecurityHistory(histData);
+        
+        
     };
     return (
             <div className={classes.root}>               
