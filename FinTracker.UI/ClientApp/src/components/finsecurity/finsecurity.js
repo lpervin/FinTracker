@@ -57,12 +57,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Finsecurity()  {
     const classes = useStyles();
-    const [finSecurity, setFinSecurity] = React.useState({Name: '', Symbol: '', SecurityType: 'Equity'  });
+    const [finSecurity, setFinSecurity] = React.useState({Name: '', Symbol: '', SecurityType: 'Equity' });
+    const [finSecurityHistory, setFinSecurityHistory] = React.useState({FinSecurityPriceHistory: [], fromDate: null, toDate: null});
     const [addInProgress, setAddInProgress] = React.useState(false);
     const [lastFinSecurityId, setLastFinSecurityId] = React.useState(0);
     const [formState, setFormState] = React.useState({Name: false, Symbol: false});
     const [openHistory, setOpenHistory] = React.useState(false);
-    const [finSecurityHistory, setFinSecurityHistory] = React.useState({historyData: [], fromDate: null, toDate: null});
+    
     
     
     const handleChange = (event) => {
@@ -97,13 +98,22 @@ export default function Finsecurity()  {
         setFormState(newState);
         if (!isValid)
             return;
-        /***Validation**/
-        
+        /***Validation End**/
+                
        // console.log(configs.serviceUrl);
-        const apiUrl = configs.serviceUrl + 'finsecurity';
-        //console.log(finSecurity);
+                
         setAddInProgress(true);
-        axios.post(apiUrl, finSecurity)
+        
+        const finsSecurityToAdd = {...finSecurity};
+        finsSecurityToAdd.FinSecurityPriceHistory = finSecurityHistory.FinSecurityPriceHistory.map(h => {
+            const traDate = new Date(h.Date);
+            return {TradeDate: traDate, Open: Number.parseFloat(h.Open), High: Number.parseFloat(h.High), Low: Number.parseFloat(h.Low), Close: Number.parseFloat(h.Close), Adj: Number.parseFloat(h['Adj Close']), Volume: Number.parseInt(h.Volume)};
+        })
+        
+        console.log(finsSecurityToAdd);
+
+        const apiUrl = configs.serviceUrl + 'finsecurity';
+        axios.post(apiUrl, finsSecurityToAdd)
             .then((response)=> {
                 setLastFinSecurityId(response);
                 console.log(response);
@@ -111,7 +121,8 @@ export default function Finsecurity()  {
             .catch((err) => {console.log(err);})
             .finally(() => 
                                     {
-                                        setFinSecurity({Name: '', Symbol: '', SecurityType: 'Equity'  });
+                                        setFinSecurity({Name: '', Symbol: '', SecurityType: 'Equity'});
+                                        setFinSecurityHistory({FinSecurityPriceHistory: [], fromDate: null, toDate: null });
                                         setAddInProgress(false);                                        
                                     });
         
@@ -127,15 +138,10 @@ export default function Finsecurity()  {
         setOpenHistory(false);
         if (!result)
             return 0;
-        
-        const histData = {historyData: data, fromDate: null, toDate: null};
+        console.log(data);
         const minHist = minBy(data, (h) => new Date(h.Date));
         const maxHist = maxBy(data, (h) => new Date(h.Date));
-        histData.fromDate = minHist.Date;
-        histData.toDate = maxHist.Date;
-        setFinSecurityHistory(histData);
-        
-        
+        setFinSecurityHistory({FinSecurityPriceHistory: data, fromDate: minHist.Date, toDate: maxHist.Date });
     };
     return (
             <div className={classes.root}>               
@@ -196,15 +202,10 @@ export default function Finsecurity()  {
                         </Grid>
                             <Grid container>
                             <Grid item xs={6}>
-
-                                {finSecurityHistory.historyData.length>0 ? 
+                                {finSecurityHistory.FinSecurityPriceHistory.length>0 ? 
                                       <Typography  className={classes.paragraph}>Historical Data: <Link className={classes.info} href="#" onClick={ (event) => {event.preventDefault(); handleFinHistoryUpload();} }>{finSecurityHistory.fromDate} to {finSecurityHistory.toDate}  <FontAwesomeIcon className={classes.info} title="Add Historical Data" icon={faEdit}/></Link> </Typography>
                                     : <Typography className={classes.paragraph}><Link href="#" onClick={ (event) => {event.preventDefault(); handleFinHistoryUpload();} }>Upload Historical Data <FontAwesomeIcon className={classes.info} title="Upload Historical Data" icon={faUpload}/></Link></Typography>
                                 }
-
-                           {/*     {openHistory ? <div>Yes</div> : <div>No</div>}*/}
-
-                                
                                 <FinSecurityHistoryUpload openHistory={openHistory} onClose={handleFinHistoryClose}  />
                                 
                             </Grid>
