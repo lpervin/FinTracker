@@ -52,7 +52,7 @@ namespace FinTracker.Domain.Repositories
             }
         }
 
-        public async Task<QueryResult<FinSecurityResource>> QueryFinSecuritiesAsync(FinSecurityQuery requestQuery)
+        public async Task<QueryResult<FinSecurityResource>> QueryFinSecuritiesAsync(ResourceQuery requestQuery)
         {
             var results = new QueryResult<FinSecurityResource>();
             //Apply Search 
@@ -73,7 +73,7 @@ namespace FinTracker.Domain.Repositories
             //Apply Paging
             query = query.ApplyPaging(requestQuery);
            // Project to FinSecurityResource
-           results.Items = query.Select(fs => new FinSecurityResource()
+           results.Items = await query.Select(fs => new FinSecurityResource()
            {
                Id = fs.Id,
                Name = fs.Name,
@@ -81,11 +81,32 @@ namespace FinTracker.Domain.Repositories
                SecurityType = fs.SecurityType,
                LastPrice = fs.LastPrice,
                FinSecurityHistoryExists = fs.FinSecurityPriceHistory.Any()
-           }).ToList();
+           }).ToListAsync();
+            return results;
+        }
+        
+        public async Task<QueryResult<FinSecurityPriceHistory>> QueryFinSecurityHistoryAsync(ResourceQuery requestQuery)
+        {
+            var results = new QueryResult<FinSecurityPriceHistory>();
+            
+            var query = _dbContext.FinSecurityPriceHistory.AsQueryable();
+            query = query.ApplyFiltering(requestQuery);
+            results.TotalItems = await query.CountAsync();
+            
+            //Apply Sort
+            var columnsMap = new Dictionary<string, Expression<Func<FinSecurityPriceHistory, object>>>()
+            {
+                ["Id"] = fs => fs.Id,
+                ["TradeDate"] = fs => fs.TradeDate,
+                ["Close"] = fs => fs.Close
+            };
+            query = query.ApplySorting(requestQuery, columnsMap);
+            query = query.ApplyPaging(requestQuery);
+            results.Items = await query.ToListAsync();
             return results;
         }
 
-        public async Task<bool> DeleteFinSecurityAsyc(long id)
+        public async Task<bool> DeleteFinSecurityAsync(long id)
         {
             var finSecuirtyToDelete = await _dbContext.FinSecurity.FindAsync(id);
             if (finSecuirtyToDelete == null)
@@ -95,5 +116,7 @@ namespace FinTracker.Domain.Repositories
             await _dbContext.SaveChangesAsync();
             return true;
         }
+
+        
     }
 }

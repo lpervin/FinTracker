@@ -1,6 +1,6 @@
 namespace FinTracker.Domain.Models.Request
 {
-    public class FinSecurityQuery
+    public class ResourceQuery
     {
                 public string SearchTerm { get; set; }
                 public string SortBy { get; set; }

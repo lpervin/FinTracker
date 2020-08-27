@@ -10,7 +10,7 @@ namespace FinTracker.Domain.Extensions
     public static class IQueryableExtensions
     {
         public static IQueryable<FinSecurity> ApplyFiltering(this IQueryable<FinSecurity> query,
-            FinSecurityQuery requestQuery)
+            ResourceQuery requestQuery)
         {
             if (string.IsNullOrEmpty(requestQuery.SearchTerm))
                 return query;
@@ -19,7 +19,17 @@ namespace FinTracker.Domain.Extensions
                 r.Name.Contains(requestQuery.SearchTerm) || r.Symbol.Contains(requestQuery.SearchTerm));
         }
 
-        public static IQueryable<T> ApplySorting<T>(this IQueryable<T> query, FinSecurityQuery requestQuery, Dictionary<string, Expression<Func<T, object>>> columnsMap)
+        public static IQueryable<FinSecurityPriceHistory> ApplyFiltering(this IQueryable<FinSecurityPriceHistory> query,  ResourceQuery requestQuery)
+        {
+            if (string.IsNullOrEmpty(requestQuery.SearchTerm))
+                return query;
+
+            return query.Where(h => h.SecurityId == long.Parse(requestQuery.SearchTerm));
+
+        }
+
+
+        public static IQueryable<T> ApplySorting<T>(this IQueryable<T> query, ResourceQuery requestQuery, Dictionary<string, Expression<Func<T, object>>> columnsMap)
         {
             if (string.IsNullOrWhiteSpace(requestQuery.SortBy) || !columnsMap.ContainsKey(requestQuery.SortBy))
                 return query;
@@ -28,7 +38,7 @@ namespace FinTracker.Domain.Extensions
                 : query.OrderByDescending(columnsMap[requestQuery.SortBy]);
         }
 
-        public static IQueryable<T> ApplyPaging<T>(this IQueryable<T> query, FinSecurityQuery requestQuery)
+        public static IQueryable<T> ApplyPaging<T>(this IQueryable<T> query, ResourceQuery requestQuery)
         {
             if (requestQuery.Page <= 0)
                 requestQuery.Page = 1;

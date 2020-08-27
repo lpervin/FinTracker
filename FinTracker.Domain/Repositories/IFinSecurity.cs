@@ -11,7 +11,10 @@ namespace FinTracker.Domain.Repositories
     {
         Task<List<FinSecurityResource>> GetAllAsync();
         Task<long> AddFinSecurityAsync(FinSecurity security);
-        Task<QueryResult<FinSecurityResource>> QueryFinSecuritiesAsync(FinSecurityQuery requestQuery);
-        Task<bool> DeleteFinSecurityAsyc(long id);
+        Task<QueryResult<FinSecurityResource>> QueryFinSecuritiesAsync(ResourceQuery requestQuery);
+        Task<bool> DeleteFinSecurityAsync(long id);
+
+        Task<QueryResult<FinSecurityPriceHistory>> QueryFinSecurityHistoryAsync(ResourceQuery requestQuery);
+
     }
 }
