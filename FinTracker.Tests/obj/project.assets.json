@@ -5216,11 +5216,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/lenny/Dev/PoC/DotNet/FinTracker/FinTracker.Tests/FinTracker.Tests.csproj",
+      "projectUniqueName": "/Users/lenny/Dev/ongoing/FinTracker/FinTracker.Tests/FinTracker.Tests.csproj",
       "projectName": "FinTracker.Tests",
-      "projectPath": "/Users/lenny/Dev/PoC/DotNet/FinTracker/FinTracker.Tests/FinTracker.Tests.csproj",
+      "projectPath": "/Users/lenny/Dev/ongoing/FinTracker/FinTracker.Tests/FinTracker.Tests.csproj",
       "packagesPath": "/Users/lenny/.nuget/packages/",
-      "outputPath": "/Users/lenny/Dev/PoC/DotNet/FinTracker/FinTracker.Tests/obj/",
+      "outputPath": "/Users/lenny/Dev/ongoing/FinTracker/FinTracker.Tests/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"

@@ -1,10 +1,10 @@
 ﻿{
   "version": "1.0.0",
   "restore": {
-    "projectUniqueName": "/Users/lenny/Dev/PoC/DotNet/FinTracker/FinTracker.WebApi/FinTracker.WebApi.csproj",
+    "projectUniqueName": "/Users/lenny/Dev/ongoing/FinTracker/FinTracker.WebApi/FinTracker.WebApi.csproj",
     "projectName": "FinTracker.WebApi",
-    "projectPath": "/Users/lenny/Dev/PoC/DotNet/FinTracker/FinTracker.WebApi/FinTracker.WebApi.csproj",
-    "outputPath": "/Users/lenny/Dev/PoC/DotNet/FinTracker/FinTracker.WebApi/obj/",
+    "projectPath": "/Users/lenny/Dev/ongoing/FinTracker/FinTracker.WebApi/FinTracker.WebApi.csproj",
+    "outputPath": "/Users/lenny/Dev/ongoing/FinTracker/FinTracker.WebApi/obj/",
     "projectStyle": "PackageReference",
     "fallbackFolders": [
       "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
@@ -18,8 +18,8 @@
     "frameworks": {
       "netcoreapp3.1": {
         "projectReferences": {
-          "/Users/lenny/Dev/PoC/DotNet/FinTracker/FinTracker.Domain/FinTracker.Domain.csproj": {
-            "projectPath": "/Users/lenny/Dev/PoC/DotNet/FinTracker/FinTracker.Domain/FinTracker.Domain.csproj"
+          "/Users/lenny/Dev/ongoing/FinTracker/FinTracker.Domain/FinTracker.Domain.csproj": {
+            "projectPath": "/Users/lenny/Dev/ongoing/FinTracker/FinTracker.Domain/FinTracker.Domain.csproj"
           }
         }
       }

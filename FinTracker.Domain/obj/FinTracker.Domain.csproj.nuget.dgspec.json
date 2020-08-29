@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/lenny/Dev/PoC/DotNet/FinTracker/FinTracker.Domain/FinTracker.Domain.csproj": {}
+    "/Users/lenny/Dev/ongoing/FinTracker/FinTracker.Domain/FinTracker.Domain.csproj": {}
   },
   "projects": {
-    "/Users/lenny/Dev/PoC/DotNet/FinTracker/FinTracker.Domain/FinTracker.Domain.csproj": {
+    "/Users/lenny/Dev/ongoing/FinTracker/FinTracker.Domain/FinTracker.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/lenny/Dev/PoC/DotNet/FinTracker/FinTracker.Domain/FinTracker.Domain.csproj",
+        "projectUniqueName": "/Users/lenny/Dev/ongoing/FinTracker/FinTracker.Domain/FinTracker.Domain.csproj",
         "projectName": "FinTracker.Domain",
-        "projectPath": "/Users/lenny/Dev/PoC/DotNet/FinTracker/FinTracker.Domain/FinTracker.Domain.csproj",
+        "projectPath": "/Users/lenny/Dev/ongoing/FinTracker/FinTracker.Domain/FinTracker.Domain.csproj",
         "packagesPath": "/Users/lenny/.nuget/packages/",
-        "outputPath": "/Users/lenny/Dev/PoC/DotNet/FinTracker/FinTracker.Domain/obj/",
+        "outputPath": "/Users/lenny/Dev/ongoing/FinTracker/FinTracker.Domain/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"

@@ -7,3 +7,12 @@
 /Users/lenny/Dev/PoC/DotNet/FinTracker/FinTracker.Domain/obj/Debug/netstandard2.0/FinTracker.Domain.dll
 /Users/lenny/Dev/PoC/DotNet/FinTracker/FinTracker.Domain/obj/Debug/netstandard2.0/FinTracker.Domain.pdb
 /Users/lenny/Dev/PoC/DotNet/FinTracker/FinTracker.Domain/obj/Debug/netstandard2.0/FinTracker.Domain.csproj.CoreCompileInputs.cache
+/Users/lenny/Dev/ongoing/FinTracker/FinTracker.Domain/bin/Debug/netstandard2.0/FinTracker.Domain.deps.json
+/Users/lenny/Dev/ongoing/FinTracker/FinTracker.Domain/bin/Debug/netstandard2.0/FinTracker.Domain.dll
+/Users/lenny/Dev/ongoing/FinTracker/FinTracker.Domain/bin/Debug/netstandard2.0/FinTracker.Domain.pdb
+/Users/lenny/Dev/ongoing/FinTracker/FinTracker.Domain/obj/Debug/netstandard2.0/FinTracker.Domain.csprojAssemblyReference.cache
+/Users/lenny/Dev/ongoing/FinTracker/FinTracker.Domain/obj/Debug/netstandard2.0/FinTracker.Domain.AssemblyInfoInputs.cache
+/Users/lenny/Dev/ongoing/FinTracker/FinTracker.Domain/obj/Debug/netstandard2.0/FinTracker.Domain.AssemblyInfo.cs
+/Users/lenny/Dev/ongoing/FinTracker/FinTracker.Domain/obj/Debug/netstandard2.0/FinTracker.Domain.csproj.CoreCompileInputs.cache
+/Users/lenny/Dev/ongoing/FinTracker/FinTracker.Domain/obj/Debug/netstandard2.0/FinTracker.Domain.dll
+/Users/lenny/Dev/ongoing/FinTracker/FinTracker.Domain/obj/Debug/netstandard2.0/FinTracker.Domain.pdb

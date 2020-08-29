@@ -1,10 +1,10 @@
 ﻿{
   "version": "1.0.0",
   "restore": {
-    "projectUniqueName": "/Users/lenny/Dev/PoC/DotNet/FinTracker/FinTracker.Domain/FinTracker.Domain.csproj",
+    "projectUniqueName": "/Users/lenny/Dev/ongoing/FinTracker/FinTracker.Domain/FinTracker.Domain.csproj",
     "projectName": "FinTracker.Domain",
-    "projectPath": "/Users/lenny/Dev/PoC/DotNet/FinTracker/FinTracker.Domain/FinTracker.Domain.csproj",
-    "outputPath": "/Users/lenny/Dev/PoC/DotNet/FinTracker/FinTracker.Domain/obj/",
+    "projectPath": "/Users/lenny/Dev/ongoing/FinTracker/FinTracker.Domain/FinTracker.Domain.csproj",
+    "outputPath": "/Users/lenny/Dev/ongoing/FinTracker/FinTracker.Domain/obj/",
     "projectStyle": "PackageReference",
     "fallbackFolders": [
       "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Q9O8Bv72WIDDWmWgCUk2j75KBKmd5tMAUWxVM1dNNjcyM20NH4OC/7hTH9FHX5NdkpS63QgB87pHwRlOAa7RTQ==",
+  "dgSpecHash": "vgBz2ibH91eSBGhYcPsilFbCXdNzZnvWz5Hb3l8a4DizKbz5lockl6ToiePquXcIQplcuCarfzkH/2dw0QH9LA==",
   "success": true,
-  "projectFilePath": "/Users/lenny/Dev/PoC/DotNet/FinTracker/FinTracker.WebApi/FinTracker.WebApi.csproj",
+  "projectFilePath": "/Users/lenny/Dev/ongoing/FinTracker/FinTracker.WebApi/FinTracker.WebApi.csproj",
   "expectedPackageFiles": [
     "/Users/lenny/.nuget/packages/microsoft.bcl.asyncinterfaces/1.1.1/microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "/Users/lenny/.nuget/packages/microsoft.bcl.hashcode/1.1.0/microsoft.bcl.hashcode.1.1.0.nupkg.sha512",

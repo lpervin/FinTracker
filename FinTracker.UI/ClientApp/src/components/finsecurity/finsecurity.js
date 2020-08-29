@@ -13,9 +13,9 @@ import Button from "@material-ui/core/Button";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faEdit, faUpload} from '@fortawesome/free-solid-svg-icons'
-import axios from "axios";
 import FinsecurityList from "./finsecurityList";
 import FinSecurityHistoryUpload from './finSecurityHistoryUpload'
+import axios from "axios";
 import configs from './../../configs';
 import Link from '@material-ui/core/Link';
 import {maxBy, minBy} from 'lodash'
@@ -115,7 +115,7 @@ export default function Finsecurity()  {
         const apiUrl = configs.serviceUrl + 'finsecurity';
         axios.post(apiUrl, finsSecurityToAdd)
             .then((response)=> {
-                setLastFinSecurityId(response);
+                setLastFinSecurityId(response.data);
                 console.log(response);
             })
             .catch((err) => {console.log(err);})

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "BmCgRVQdwBhbEw6hubXLJiV9eY45hihgpXWJgLB64+3GyI2+FGjsKUZVUbKTsU3iulyaO9hRCO4YuTun9bnJCQ==",
+  "dgSpecHash": "5dzslmE2KX4QckZXvpP3KgArSAoqjMh+5Y047I/y7XudsD4IRO+ycMoqD0IJq087SqSYN3Oe8Nlb4N24vpZrRA==",
   "success": true,
-  "projectFilePath": "/Users/lenny/Dev/PoC/DotNet/FinTracker/FinTracker.Tests/FinTracker.Tests.csproj",
+  "projectFilePath": "/Users/lenny/Dev/ongoing/FinTracker/FinTracker.Tests/FinTracker.Tests.csproj",
   "expectedPackageFiles": [
     "/Users/lenny/.nuget/packages/microsoft.codecoverage/16.2.0/microsoft.codecoverage.16.2.0.nupkg.sha512",
     "/usr/local/share/dotnet/sdk/NuGetFallbackFolder/microsoft.csharp/4.0.1/microsoft.csharp.4.0.1.nupkg.sha512",

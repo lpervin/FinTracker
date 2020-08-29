@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import axios from "axios";
-import configs from './../../configs';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import TableContainer from "@material-ui/core/TableContainer";
@@ -20,7 +18,11 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from "@material-ui/core/Button";
-
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { faChartLine } from '@fortawesome/free-solid-svg-icons';
+import columns from './finSecurityHistoryColumns';
+import axios from "axios";
+import configs from './../../configs';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -33,6 +35,11 @@ const useStyles = makeStyles(theme => ({
         cursor: 'pointer',
         color: theme.palette.error.dark + '!important'
     },
+    AuxLink: {
+        cursor: 'pointer',
+        color: theme.palette.info.dark + '!important'
+    },
+
     confirmDialog: {
         minWidth: '460px'
     }
@@ -47,6 +54,7 @@ export default  function FinsecurityList({ Id }) {
         const [deletedRowsCnt, setDeletedRowsCnt] = React.useState(0);
         const [confirmDelete, setConfirmDelete] = React.useState(false);
         const [rowToDelete, setRowToDelete] = React.useState({});
+        const [showHistory, setShowHistory] = React.useState(false);
         
         useEffect(  () => {
             async function fetchFinSecurities(){
@@ -86,6 +94,15 @@ export default  function FinsecurityList({ Id }) {
         setConfirmDelete(false);
     };
     
+    const handleHistClose = () => {
+        setShowHistory(false);
+    };
+    
+    const handleShowPriceHistory = (row) => {
+        setShowHistory(true);
+        console.log(row.id);
+    };
+    
     function doDelete() {
         const apiUrl = configs.serviceUrl + 'finsecurity/' + rowToDelete.id;
         axios.delete(apiUrl)
@@ -100,7 +117,7 @@ export default  function FinsecurityList({ Id }) {
             .finally(()=> {
                 setConfirmDelete(false);              
             });
-    }
+    } 
 
     return (
               <div>
@@ -123,6 +140,9 @@ export default  function FinsecurityList({ Id }) {
                                           <TableCell>
                                               Security Type
                                           </TableCell>
+                                          <TableCell>
+                                              &nbsp;
+                                          </TableCell>
                                       </TableRow>
                                   </TableHead>
                                   {!dataLoadingStatus &&  <TableBody>
@@ -144,6 +164,9 @@ export default  function FinsecurityList({ Id }) {
                                                       <TableCell>
                                                           {row.securityType}
                                                       </TableCell>
+                                                      <TableCell>
+                                                          {row.finSecurityHistoryExists && (<Link title="View Price History" className={classes.AuxLink} onClick={() => handleShowPriceHistory(row)} id={row.id}><FontAwesomeIcon icon={faChartLine}/></Link> )}
+                                                      </TableCell>
                                                   </TableRow>);
                                           }
                                       )}
@@ -161,8 +184,6 @@ export default  function FinsecurityList({ Id }) {
                               onChangePage={handleChangePage}
                               onChangeRowsPerPage={handleChangeRowsPerPage}
                           />
-
-
                       </CardContent>
                   </Card>
                   <Dialog
@@ -172,7 +193,7 @@ export default  function FinsecurityList({ Id }) {
                       aria-describedby="alert-dialog-description">
                       <DialogTitle id="alert-dialog-title">Confrim Delete</DialogTitle>
                       <DialogContent>
-                          <DialogContentText id="alert-dialog-description"     className={classes.confirmDialog}>
+                          <DialogContentText id="alert-dialog-description"    className={classes.confirmDialog}>
                               Delete  {rowToDelete.name}?                        
                           </DialogContentText>
                       </DialogContent>
@@ -186,6 +207,24 @@ export default  function FinsecurityList({ Id }) {
                       </DialogActions>
                   </Dialog>
 
+                  <Dialog
+                      open={showHistory}
+                      onClose={handleHistClose} fullWidth={true} maxWidth="md"
+                      aria-labelledby="alert-dialog-title"
+                      aria-describedby="alert-dialog-description">
+                      <DialogTitle id="alert-dialog-title">Price History</DialogTitle>
+                      <DialogContent>
+                          <DialogContentText id="alert-dialog-description"  >
+                              Price History Table here
+                          </DialogContentText>
+                      </DialogContent>
+                      <DialogActions>
+                          <Button onClick={handleHistClose} color="primary">
+                              Ok
+                          </Button>                         
+                      </DialogActions>
+                  </Dialog>
+                  
               </div>  
         );
     
