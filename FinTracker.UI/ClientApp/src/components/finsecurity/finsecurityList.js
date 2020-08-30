@@ -18,9 +18,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from "@material-ui/core/Button";
+import FinSecurityHistoryModal from "./finSecurityHistoryModal";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import { faChartLine } from '@fortawesome/free-solid-svg-icons';
-import columns from './finSecurityHistoryColumns';
 import axios from "axios";
 import configs from './../../configs';
 
@@ -54,7 +54,8 @@ export default  function FinsecurityList({ Id }) {
         const [deletedRowsCnt, setDeletedRowsCnt] = React.useState(0);
         const [confirmDelete, setConfirmDelete] = React.useState(false);
         const [rowToDelete, setRowToDelete] = React.useState({});
-        const [showHistory, setShowHistory] = React.useState(false);
+        const [selectedSecId, setSelectedSecId] = React.useState(0);
+        const [finSecurityHistClick, setFinSecurityHistClick] = React.useState(new Date());
         
         useEffect(  () => {
             async function fetchFinSecurities(){
@@ -63,7 +64,7 @@ export default  function FinsecurityList({ Id }) {
                 setDataLoadingStatus(true);
                 const results = await axios({method: "post", url: apiUrl, data: requestQuery});
                 setDataLoadingStatus(false);
-                console.log(results.data);
+                //console.log(results.data);
                 setFinSecurities(results.data);  
             }
             fetchFinSecurities();
@@ -71,9 +72,8 @@ export default  function FinsecurityList({ Id }) {
         }, [Id, page, rowsPerPage, deletedRowsCnt]);
 
     const handleChangePage = (event, newPage) => {
-        console.log(newPage);
-        setPage(newPage);
-        
+        //console.log(newPage);
+        setPage(newPage);        
     };
 
     const handleChangeRowsPerPage = (event) => {
@@ -82,10 +82,7 @@ export default  function FinsecurityList({ Id }) {
     };
     
     const handleDelete = (row) => {
-   /*     console.log(row.id);
-        const doDelete = window.confirm(`Delete this ${row.symbol}?`);
-        if (!doDelete)
-            return false;      */
+
         setRowToDelete(row);
         setConfirmDelete(true);
     }
@@ -94,13 +91,12 @@ export default  function FinsecurityList({ Id }) {
         setConfirmDelete(false);
     };
     
-    const handleHistClose = () => {
-        setShowHistory(false);
-    };
+
     
-    const handleShowPriceHistory = (row) => {
-        setShowHistory(true);
+    const handleShowPriceHistory = (row) => {  
         console.log(row.id);
+        setSelectedSecId(row.id);
+        setFinSecurityHistClick(new Date());
     };
     
     function doDelete() {
@@ -207,23 +203,7 @@ export default  function FinsecurityList({ Id }) {
                       </DialogActions>
                   </Dialog>
 
-                  <Dialog
-                      open={showHistory}
-                      onClose={handleHistClose} fullWidth={true} maxWidth="md"
-                      aria-labelledby="alert-dialog-title"
-                      aria-describedby="alert-dialog-description">
-                      <DialogTitle id="alert-dialog-title">Price History</DialogTitle>
-                      <DialogContent>
-                          <DialogContentText id="alert-dialog-description"  >
-                              Price History Table here
-                          </DialogContentText>
-                      </DialogContent>
-                      <DialogActions>
-                          <Button onClick={handleHistClose} color="primary">
-                              Ok
-                          </Button>                         
-                      </DialogActions>
-                  </Dialog>
+                <FinSecurityHistoryModal finSecurityId={selectedSecId} lastClick={finSecurityHistClick} />               
                   
               </div>  
         );

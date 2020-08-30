@@ -14,7 +14,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faEdit, faUpload} from '@fortawesome/free-solid-svg-icons'
 import FinsecurityList from "./finsecurityList";
-import FinSecurityHistoryUpload from './finSecurityHistoryUpload'
+import FinSecurityHistoryUploadModal from './finSecurityHistoryUploadModal'
 import axios from "axios";
 import configs from './../../configs';
 import Link from '@material-ui/core/Link';
@@ -206,7 +206,7 @@ export default function Finsecurity()  {
                                       <Typography  className={classes.paragraph}>Historical Data: <Link className={classes.info} href="#" onClick={ (event) => {event.preventDefault(); handleFinHistoryUpload();} }>{finSecurityHistory.fromDate} to {finSecurityHistory.toDate}  <FontAwesomeIcon className={classes.info} title="Add Historical Data" icon={faEdit}/></Link> </Typography>
                                     : <Typography className={classes.paragraph}><Link href="#" onClick={ (event) => {event.preventDefault(); handleFinHistoryUpload();} }>Upload Historical Data <FontAwesomeIcon className={classes.info} title="Upload Historical Data" icon={faUpload}/></Link></Typography>
                                 }
-                                <FinSecurityHistoryUpload openHistory={openHistory} onClose={handleFinHistoryClose}  />
+                                <FinSecurityHistoryUploadModal openHistory={openHistory} onClose={handleFinHistoryClose}  />
                                 
                             </Grid>
                         </Grid>

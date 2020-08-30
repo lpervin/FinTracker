@@ -1,17 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import StickyHeadTable from "../Shared/StickyHeadTable";
+import DataGridLocalData from "../Shared/DataGridLocalData";
 import XLSX from 'xlsx'
-import columns from './finSecurityHistoryColumns'
+import finSecurityHistoryUploadColumns from '../../configs/ColumnMapings/finSecurityHistoryUpload'
 
 
-export default function FinSecurityHistoryUpload(props) {  
+export default function FinSecurityHistoryUploadModal(props) {  
     const [open, setOpen] = useState(false);
     const [histData, setHistData] = useState([]);
     useEffect(()=>{
@@ -65,9 +64,7 @@ export default function FinSecurityHistoryUpload(props) {
         }
         return false;
     }
-
-   
-   
+    
     return (
         <div>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" fullWidth={true} maxWidth="md">
@@ -91,7 +88,7 @@ export default function FinSecurityHistoryUpload(props) {
                     <div
                         style={{ paddingTop: "15px" }}
                     >
-                        {histData.length>0 && <StickyHeadTable columns={columns} rows={histData}/>}
+                        {histData.length>0 && <DataGridLocalData columns={finSecurityHistoryUploadColumns} rows={histData}/>}
                     </div>                       
                          
            

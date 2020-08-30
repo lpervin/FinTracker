@@ -69,7 +69,7 @@ const useStyles = makeStyles({
     },
 });
 
-export default function StickyHeadTable({rows, columns}) {
+export default function DataGridLocalData({rows, columns}) {
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(25);
